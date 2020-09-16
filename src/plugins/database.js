@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const models = require('../models');
-const { modelAssembler } = require('../utils/model');
+const { modelAssembler, createAssociations } = require('../utils/model');
 /**
  * Plugin to handle Database connection and syncing all models
  * @param  {FastifyInstance} fastify
@@ -19,7 +19,7 @@ module.exports = async function DBConnector(fastify, options) {
   try {
     await sequelize.authenticate();
     const modelObject = modelAssembler(sequelize, models);
-    await sequelize.sync();
+    await createAssociations(modelObject);
     fastify.decorate('sequelize', sequelize);
     fastify.decorate('models', modelObject);
     fastify.log.info('Connection to Database successful');
