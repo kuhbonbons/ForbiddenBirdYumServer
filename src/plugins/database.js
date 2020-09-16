@@ -1,12 +1,14 @@
 const Sequelize = require('sequelize');
+const fastifyPlugin = require('fastify-plugin');
 const models = require('../models');
+
 const { modelAssembler, createAssociations } = require('../utils/model');
 /**
  * Plugin to handle Database connection and syncing all models
  * @param  {FastifyInstance} fastify
  * @param  {Object} options
  */
-module.exports = async function DBConnector(fastify, options) {
+module.exports = fastifyPlugin(async (fastify, options) => {
   const {
     database, host, user, password,
   } = options.fby;
@@ -26,4 +28,4 @@ module.exports = async function DBConnector(fastify, options) {
   } catch (error) {
     fastify.log.error('Unable to connect to Database');
   }
-};
+});
