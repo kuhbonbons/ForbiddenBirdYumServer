@@ -11,10 +11,14 @@
     "migrate:down": "sequelize-cli db:migrate:undo"
   },
   "dependencies": {
+    "bcrypt": "^5.0.0",
     "config": "^3.3.1",
     "dotenv": "^8.2.0",
     "fastify": "^3.4.1",
+    "fastify-cors": "^4.1.0",
+    "fastify-helmet": "^5.0.3",
     "fastify-plugin": "^2.3.4",
+    "fastify-sensible": "^3.0.1",
     "mysql2": "^2.1.0",
     "sequelize": "^6.3.5"
   },

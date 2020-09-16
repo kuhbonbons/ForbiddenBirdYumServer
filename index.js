@@ -11,6 +11,9 @@ fastify.register(require('./src/plugins/database'), {
     password: process.env.DB_PASSWORD,
   },
 });
+fastify.register(require('fastify-helmet'));
+fastify.register(require('fastify-sensible'));
+fastify.register(require('fastify-cors'));
 fastify.register(require('./src/routes'));
 
 const start = async () => {
