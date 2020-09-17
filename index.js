@@ -1,5 +1,6 @@
 require('dotenv').config();
 const fastify = require('fastify')({ logger: true });
+const config = require('config');
 
 const PORT = process.env.PORT || 3000;
 
@@ -12,8 +13,11 @@ fastify.register(require('./src/plugins/database'), {
   },
 });
 fastify.register(require('fastify-helmet'));
-fastify.register(require('fastify-sensible'));
 fastify.register(require('fastify-cors'));
+fastify.register(require('fastify-cookie'), {
+  secret: config.get('cookieSecret'),
+});
+fastify.register(require('fastify-sensible'));
 fastify.register(require('./src/routes'));
 
 const start = async () => {

@@ -1,6 +1,7 @@
 const {
   Model,
 } = require('sequelize');
+const bcrypt = require('bcrypt');
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -9,8 +10,17 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate() {
+    static hashPassword(password) {
+      return bcrypt.hash(password, 10);
+    }
+
+    verifyPassword(password) {
+      return bcrypt.compare(password, this.password);
+    }
+
+    static associate(models) {
       // define association here
+      this.hasOne(models.Token, { constraints: false });
     }
   }
   User.init({
