@@ -16,7 +16,7 @@ async function login(fastify, request, response) {
   try {
     const { accessToken, refreshToken } = await UserService.loginUser(fastify, request.body);
     response.setCookie('at', accessToken);
-    response.setCookie('rt', refreshToken, { httpOnly: true, expiresIn: '7d' });
+    response.setCookie('rt', refreshToken, { httpOnly: true });
     response.status(204);
     return null;
   } catch (error) {
