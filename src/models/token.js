@@ -19,12 +19,14 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     static generateJwt(payload, secret, options) {
+      // eslint-disable-next-line no-param-reassign
+      delete payload.iat;
       return jwt.sign(payload, secret, options);
     }
 
     static associate(models) {
       // define association here
-      this.belongsTo(models.User, { constraints: true });
+      this.belongsTo(models.Note, { constraints: true, foreignKey: 'user_id' });
     }
   }
   Token.init({

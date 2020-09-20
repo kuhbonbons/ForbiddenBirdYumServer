@@ -20,7 +20,8 @@ module.exports = (sequelize, DataTypes) => {
 
     static associate(models) {
       // define association here
-      this.hasOne(models.Token, { constraints: false });
+      this.hasOne(models.Token, { constraints: false, foreignKey: 'user_id' });
+      this.hasMany(models.Note, { constraints: false, foreignKey: 'user_id' });
     }
   }
   User.init({

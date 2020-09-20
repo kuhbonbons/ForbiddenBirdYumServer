@@ -1,5 +1,4 @@
 const { Op } = require('sequelize');
-const jwt = require('jsonwebtoken');
 const config = require('config');
 
 async function createUser(fastify, { username, email, password }) {
@@ -29,8 +28,10 @@ async function loginUser(fastify, { username, password }) {
     email: user.email,
     username: user.username,
   };
-  const accessToken = jwt.sign(payload, config.get('jwtAccessSecret'), { expiresIn: '30m' });
-  const refreshToken = jwt.sign(payload, config.get('jwtRefreshSecret'));
+  const [accessToken, refreshToken] = await Promise.all([
+    Token.generateJwt(payload, config.get('jwtAccessSecret'), { expiresIn: '1h' }),
+    Token.generateJwt(payload, config.get('jwtRefreshSecret')),
+  ]);
   await Token.upsert({ user_id: user.id, token: refreshToken });
   return { accessToken, refreshToken };
 }

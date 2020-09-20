@@ -1,15 +1,12 @@
 const config = require('config');
 
-async function generateAccessToken(fastify, refreshToken) {
-  const { Token } = fastify.models.token;
-  const user = await Token.verifyToken(refreshToken, config.get('jwtRefreshSecret'));
-  if (!user) throw fastify.httpErrors.forbidden();
+async function generateAccessToken(fastify, user) {
+  const { Token } = fastify.models;
   const token = await Token.findOne({
     where: { user_id: user.id },
   });
-
   if (!token) throw fastify.httpErrors.forbidden();
-  const accessToken = await Token.generateJwt(user, config.get('jwtAccessSecret'), { expiresIn: '30m' });
+  const accessToken = await Token.generateJwt(user, config.get('jwtAccessSecret'), { expiresIn: '1h' });
   return accessToken;
 }
 
