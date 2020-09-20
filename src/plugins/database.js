@@ -24,6 +24,7 @@ module.exports = fastifyPlugin(async (fastify, options) => {
     await createAssociations(modelObject);
     fastify.decorate('sequelize', sequelize);
     fastify.decorate('models', modelObject);
+    fastify.decorate('session', null);
     fastify.log.info('Connection to Database successful');
   } catch (error) {
     fastify.log.error('Unable to connect to Database');

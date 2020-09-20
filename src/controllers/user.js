@@ -7,7 +7,7 @@ async function signUp(fastify, request, response) {
     response.code(204);
     return null;
   } catch (error) {
-    fastify.log.error('Error while creating user: ', error);
+    fastify.log.error('Error while creating user');
     throw error;
   }
 }
@@ -20,7 +20,7 @@ async function login(fastify, request, response) {
     response.status(204);
     return null;
   } catch (error) {
-    fastify.log.error('Error while logging in: ', error);
+    fastify.log.error('Error while logging in');
     throw error;
   }
 }
@@ -40,7 +40,7 @@ async function logout(fastify, request, response) {
     response.status(204);
     return null;
   } catch (error) {
-    fastify.log.error('Error while logging out: ', error);
+    fastify.log.error('Error while logging out');
     throw error;
   }
 }
