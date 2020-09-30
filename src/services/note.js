@@ -49,7 +49,55 @@ async function deleteNote(fastify, id) {
   });
 }
 
-async function updateNote(fastify, { id, patchedNote }) {
+// We just delete the old sections and create the new ones
+async function updateNote(fastify, {
+  id, note: {
+    sections: patchedSections,
+    ...patchedNote
+  },
+}) {
+  const { Note, Section } = fastify.models;
+  const user = fastify.session;
+  const note = await Note.findOne({
+    where: {
+      [Op.and]: {
+        user_id: user.id,
+        id,
+      },
+    },
+    include: Section,
+  });
+  if (!note) throw fastify.httpErrors.badRequest();
+  const sections = note.Sections;
+  const deleteIds = sections.reduce((acc, sec) => [...acc, { id: sec.id }], []);
+  const transaction = await fastify.sequelize.transaction();
+  try {
+    await Promise.all([
+      Section.destroy({
+        where: {
+          [Op.or]: deleteIds,
+        },
+      }, { transaction }),
+      ...patchedSections.map(async (sec, index) => Section.create({
+        index,
+        ...sec,
+        note_id: note.id,
+      }, { transaction })),
+      note.update(patchedNote, { transaction }),
+    ]);
+    await transaction.commit();
+  } catch (error) {
+    await transaction.rollback();
+    throw error;
+  }
+}
+/**
+ This would be needed if we allowed updating through the api, but requests will only be
+ coming from the UI, theres no need to update a single section. Instead we will just delete all
+ sections and create the ones we get from the UI.
+ * */
+
+/* async function updateNote(fastify, { id, patchedNote }) {
   const { Note, Section } = fastify.models;
   const user = fastify.session;
   const note = await Note.findOne({
@@ -80,7 +128,7 @@ async function updateNote(fastify, { id, patchedNote }) {
     await transaction.rollback();
     throw error;
   }
-}
+} */
 
 module.exports = {
   getNotes,
