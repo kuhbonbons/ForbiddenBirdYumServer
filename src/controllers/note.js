@@ -47,7 +47,7 @@ async function update(fastify, request, response) {
   try {
     await NoteService.updateNote(fastify, {
       ...request.params,
-      patchedNote: request.body,
+      note: request.body,
     });
     response.status(204);
     return null;

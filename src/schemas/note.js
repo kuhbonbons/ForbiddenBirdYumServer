@@ -53,9 +53,8 @@ const updateNote = {
   },
   body: {
     type: 'object',
-    required: ['title', 'id', 'summary', 'sections'],
+    required: ['title', 'summary', 'sections'],
     properties: {
-      id: { type: 'number' },
       title: { type: 'string', maxLength: 255, minLength: 8 },
       description: { type: 'string', maxLength: 255, minLength: 10 },
       summary: { type: 'string', maxLength: 500, minLength: 50 },
@@ -67,7 +66,6 @@ const updateNote = {
           type: 'object',
           required: ['keyword', 'content'],
           properties: {
-            id: { type: 'number' },
             keyword: { type: 'string', maxLength: 255, minLength: 10 },
             content: { type: 'string', maxLength: 65000, minLength: 10 },
           },

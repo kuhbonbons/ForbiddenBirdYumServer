@@ -34,15 +34,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    user_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      unique: true,
-      references: {
-        model: 'User',
-        key: 'id',
-      },
-    },
   }, {
     sequelize,
     modelName: 'Token',

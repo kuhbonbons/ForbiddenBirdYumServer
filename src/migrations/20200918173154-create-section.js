@@ -26,8 +26,8 @@ module.exports = {
           model: 'Notes',
           key: 'id',
         },
-        onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
+        onUpdate: 'NO ACTION',
       },
       createdAt: {
         allowNull: false,
