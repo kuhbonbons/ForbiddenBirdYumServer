@@ -6,8 +6,8 @@ async function createUser(fastify, { username, email, password }) {
   const user = await User.findOne({
     where: { [Op.or]: { username, email } },
   });
-  if (user.email === email) throw fastify.httpErrors.conflict('E-Mail already registered.');
-  if (user.username === username) throw fastify.httpErrors.conflict('User already exists.');
+  if (user && user.email === email) throw fastify.httpErrors.conflict('E-Mail already registered.');
+  if (user && user.username === username) throw fastify.httpErrors.conflict('User already exists.');
   const hash = await User.hashPassword(password);
   await User.create({
     username,
