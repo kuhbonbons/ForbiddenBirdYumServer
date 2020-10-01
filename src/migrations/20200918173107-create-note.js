@@ -1,6 +1,9 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Notes', {
+      icon: {
+        type: Sequelize.STRING,
+      },
       id: {
         allowNull: false,
         autoIncrement: true,

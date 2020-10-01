@@ -3,6 +3,7 @@ const createNote = {
     type: 'object',
     required: ['title', 'summary', 'sections'],
     properties: {
+      icon: { type: 'string', maxLength: 255, minLength: 4 },
       title: { type: 'string', maxLength: 255, minLength: 8 },
       description: { type: 'string', maxLength: 255, minLength: 10 },
       summary: { type: 'string', maxLength: 500, minLength: 50 },
@@ -52,6 +53,7 @@ const updateNote = {
     },
   },
   body: {
+    icon: { type: 'string', maxLength: 255, minLength: 4 },
     type: 'object',
     required: ['title', 'summary', 'sections'],
     properties: {
