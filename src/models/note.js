@@ -16,6 +16,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Note.init({
+    icon: {
+      type: DataTypes.STRING,
+    },
     title: {
       type: DataTypes.STRING,
       allowNull: false,
