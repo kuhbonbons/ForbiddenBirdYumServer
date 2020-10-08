@@ -1,3 +1,4 @@
+const AuthController = require('../controllers/auth');
 const UserController = require('../controllers/user');
 const NoteController = require('../controllers/note');
 const { signUpSchema, loginSchema } = require('../schemas/user');
@@ -14,6 +15,7 @@ async function router(fastify) {
   fastify.post('/signup', { schema: signUpSchema }, UserController.signUp.bind(UserController, fastify));
   fastify.post('/login', { schema: loginSchema }, UserController.login.bind(UserController, fastify));
   fastify.delete('/logout', UserController.logout.bind(null, fastify));
+  fastify.get('/refresh-token', AuthController.refreshToken.bind(AuthController, fastify));
 
   // Private Routes
   fastify.get('/testauth', { preHandler: authHook.bind(null, fastify) }, async () => 'OK');
