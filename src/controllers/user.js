@@ -15,8 +15,8 @@ async function signUp(fastify, request, response) {
 async function login(fastify, request, response) {
   try {
     const { accessToken, refreshToken } = await UserService.loginUser(fastify, request.body);
-    response.setCookie('at', accessToken);
-    response.setCookie('rt', refreshToken, { httpOnly: true });
+    response.setCookie('at', accessToken, { maxAge: 60 * 30 });
+    response.setCookie('rt', refreshToken, { httpOnly: true, maxAge: 60 * 60 * 24 * 7 });
     response.status(204);
     return null;
   } catch (error) {

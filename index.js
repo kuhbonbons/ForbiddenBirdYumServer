@@ -2,7 +2,7 @@ require('dotenv').config();
 const fastify = require('fastify')({ logger: true });
 const config = require('config');
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 
 fastify.register(require('./src/plugins/database'), {
   fby: {
@@ -13,7 +13,11 @@ fastify.register(require('./src/plugins/database'), {
   },
 });
 fastify.register(require('fastify-helmet'));
-fastify.register(require('fastify-cors'));
+fastify.register(require('fastify-cors'), {
+  origin: true,
+  methods: ['GET', 'PUT', 'POST', 'DELETE'],
+  credentials: true,
+});
 fastify.register(require('fastify-cookie'), {
   secret: config.get('cookieSecret'),
 });
