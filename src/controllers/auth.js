@@ -2,6 +2,7 @@ const AuthService = require('../services/auth');
 
 const refreshToken = async (fastify, request) => {
   try {
+    if (!request.cookies) throw fastify.httpErrors.forbidden();
     const token = await AuthService.generateAccessToken(fastify, request.cookies);
     return {
       token,
