@@ -3,7 +3,8 @@ const { Op } = require('sequelize');
 async function createNote(fastify, body) {
   const { Note, Section } = fastify.models;
   const user = fastify.session;
-  const { sections } = body;
+  let { sections } = body;
+  sections = sections.map((section, index) => ({ ...section, index }));
   await Note.create({
     ...body, user_id: user.id, Sections: sections,
   }, { include: [Section] });
